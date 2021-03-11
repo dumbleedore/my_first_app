@@ -46,7 +46,7 @@ export const Home = () => {
         }}
       >
         <Text style={{ color: "white" }}>
-          Account:<Text style={{ color: "green" }}>{username}</Text>
+          Account:<Text style={{ color: "green" }}> {username}</Text>
         </Text>
       </View>
 

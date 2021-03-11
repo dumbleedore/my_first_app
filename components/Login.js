@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, View, Image, KeyboardAvoidingView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  KeyboardAvoidingView,
+  ActivityIndicator,
+} from "react-native";
 import { Input, Button, Text } from "react-native-elements";
 import { Use } from "react-native-svg";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -9,12 +15,12 @@ export const Login = () => {
   const { username, setUsername, password, setPassword } = React.useContext(
     GlobaContext
   );
+  const [loading, setLoading] = React.useState(false);
 
   const [message, setMessage] = React.useState([]);
-  setTimeout(() => {
-    setMessage("");
-  }, 8000);
+
   async function handlePress() {
+    setLoading(true);
     let response = await fetch(
       "https://cryptic-cove-48758.herokuapp.com/login",
       {
@@ -32,13 +38,29 @@ export const Login = () => {
       .then((response) => response.json())
       .then((json) => {
         if (json.message === "Username ou Senha incorretos") {
+          setLoading(false);
           setMessage(json.message);
         } else {
+          setLoading(false);
           history.push("/Home");
         }
       });
   }
   let history = useHistory();
+  if (loading) {
+    return (
+      <View
+        style={{
+          width: "100%",
+          height: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
   return (
     <KeyboardAvoidingView style={styles.tela} behavior="padding">
       <View style={styles.login}>
