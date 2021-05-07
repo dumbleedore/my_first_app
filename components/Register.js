@@ -5,6 +5,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Text,
+  ActivityIndicator,
 } from "react-native";
 import { Input, Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -15,12 +16,9 @@ export const Register = () => {
   const [password, setPassword] = React.useState([]);
   const [message, setMessage] = React.useState([]);
   const [sucess, setSucess] = React.useState([]);
-  // Some mensagem após um tempo
-  setTimeout(() => {
-    setMessage("");
-    setSucess("");
-  }, 8000);
+  const [loading, setLoading] = React.useState(false);
   async function handlePress() {
+    setLoading(true);
     let response = await fetch(
       "https://cryptic-cove-48758.herokuapp.com/register",
       {
@@ -43,6 +41,21 @@ export const Register = () => {
           setMessage(json.message);
         }
       });
+    setLoading(false);
+  }
+  if (loading) {
+    return (
+      <View
+        style={{
+          width: "100%",
+          height: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size="large" />
+      </View>
+    );
   }
   return (
     <KeyboardAvoidingView style={styles.tela} behavior="padding">

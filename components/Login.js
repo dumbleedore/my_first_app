@@ -6,11 +6,11 @@ import {
   KeyboardAvoidingView,
   ActivityIndicator,
 } from "react-native";
-import { Input, Button, Text } from "react-native-elements";
-import { Use } from "react-native-svg";
+import { Button, Text } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { GlobaContext } from "./GlobalContext";
-import { Redirect, useHistory } from "react-router-native";
+import { GlobaContext } from "./Context/GlobalContext";
+import { useHistory } from "react-router-native";
+import { InputLogin, InputPassword } from "./Input/Inputs.js";
 export const Login = () => {
   const { username, setUsername, password, setPassword } = React.useContext(
     GlobaContext
@@ -72,23 +72,16 @@ export const Login = () => {
         </View>
         <Text h2>CatNap</Text>
         <Text style={{ color: "red" }}>{message}</Text>
-        <Input
+        <InputLogin
           placeholder="Username"
-          maxLength={12}
-          style={{ margin: 15 }}
-          leftIcon={<Icon name="user" size={24} />}
-          onChangeText={(text) => setUsername(text)}
+          icon={<Icon name="user" size={24} />}
+          function={setUsername}
         />
-
-        <Input
+        <InputPassword
           placeholder="Password"
-          maxLength={12}
-          style={{ margin: 15 }}
-          secureTextEntry={true}
-          leftIcon={<Icon name="lock" size={24} />}
-          onChangeText={(text) => setPassword(text)}
+          icon={<Icon name="lock" size={24} />}
+          function={setPassword}
         />
-
         <View style={{ display: "flex", width: "90%" }}>
           <Text
             style={{ fontSize: 15, marginBottom: 10 }}
@@ -97,7 +90,6 @@ export const Login = () => {
             Register?
           </Text>
         </View>
-
         <Button
           title="Entrar"
           buttonStyle={{

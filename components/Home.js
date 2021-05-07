@@ -2,8 +2,8 @@ import React from "react";
 import { StyleSheet, View, Image, ActivityIndicator } from "react-native";
 import { Button, Text } from "react-native-elements";
 import { useHistory } from "react-router-native";
-import { GlobaContext } from "./GlobalContext";
-
+import { GlobaContext } from "./Context/GlobalContext";
+import Icon from "react-native-vector-icons/FontAwesome";
 export const Home = () => {
   let history = useHistory();
   const [kitty, setKitty] = React.useState(null);
@@ -17,7 +17,7 @@ export const Home = () => {
   }, []);
   async function handlePress() {
     setLoading(true);
-    await fetch("https://api.thecatapi.com/v1/images/search", {
+    await fetch("https://api.thecatapi.com/v1/images/search?mime_types=gif", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -60,17 +60,26 @@ export const Home = () => {
           ></Image>
         )}
       </View>
-      <Text
-        onPress={() => history.push("/")}
-        style={{
-          color: "white",
-          marginLeft: 240,
-          marginTop: 10,
-          fontSize: 20,
-        }}
-      >
-        Logout
-      </Text>
+      <View style={styles.config}>
+        <Text
+          onPress={() => history.push("/")}
+          style={{
+            color: "white",
+            marginLeft: 240,
+            marginTop: 10,
+            fontSize: 20,
+          }}
+        >
+          Logout
+        </Text>
+        <Icon
+          color="white"
+          name="gear"
+          size={24}
+          style={{ position: "absolute", marginTop: 10 }}
+          onPress={history.push("/config")}
+        />
+      </View>
       <Button
         onPress={handlePress}
         title="Generate Cat"
@@ -101,5 +110,8 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     height: "100%",
     alignItems: "center",
+  },
+  config: {
+    display: "flex",
   },
 });
